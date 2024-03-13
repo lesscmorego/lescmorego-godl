@@ -295,16 +295,8 @@ func SDL_AddAssertionToReport(data *SDL_AssertData) {
 
 const ENDLINE = "\r"
 
-// tern replaces cond ? v1 : v2
-func tern[T any](cond bool, v1, v2 T) T {
-	if cond {
-		return v1
-	}
-	return v2
-}
-
 func SDL_RenderAssertMessage(data SDL_AssertData) string {
-	return fmt.Sprintf("Assertion failure at %s (%s:%d), triggered %u %s:"+ENDLINE+"  '%s'",
+	return fmt.Sprintf("Assertion failure at %s (%s:%d), triggered %d %s:"+ENDLINE+"  '%s'",
 		data.Function, data.Filename, data.Linenum,
 		data.TriggerCount, tern((data.TriggerCount == 1), "time", "times"),
 		data.Condition)
@@ -321,7 +313,7 @@ func SDL_GenerateAssertionReport() {
 			debug_print(
 				"'%s'\n"+
 					"    * %s (%s:%d)\n"+
-					"    * triggered %u time%s.\n"+
+					"    * triggered %d time%s.\n"+
 					"    * always ignore: %s.\n",
 				item.Condition, item.Function, item.Filename,
 				item.Linenum, item.TriggerCount,
